@@ -1,4 +1,4 @@
- trigger:
+trigger:
 - main
 
 pool:
@@ -8,17 +8,18 @@ steps:
 
 - task: NodeTool@0
   inputs:
-    versionSpec: '16.x'
+    versionSpec: '18.x'   # Updated from 16.x
 
 - script: npm install
   displayName: Install dependencies
 
-- script: echo "Build completed"
+- script: npm run build
   displayName: Build step
+  continueOnError: true   # Optional: prevents failure if no build script
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '.'
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
